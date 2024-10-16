@@ -2,11 +2,19 @@ const express = require("express");
 const app = express();
 const { Musician } = require("../models/index")
 const { db } = require("../db/connection")
+const { where } = require("sequelize");
+
+const router = require("./routes/musicians.js")
+
 
 const port = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+
+app.use("/musicians", router)
+
+/*
 
 app.get("/musicians", async (request, response) => {
     let musicians = await Musician.findAll()
@@ -33,7 +41,7 @@ app.delete("/musicians/:id", async (req, res) => {
     res.json(deletedMusician)
 })
 
-
+*/
 
 
 

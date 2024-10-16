@@ -21,7 +21,7 @@ describe('./musicians endpoint', () => {
         // Sends request to `/musicians` endpoint
         const response = await request(app).get("/musicians");
         const responseData = JSON.parse(response.text);
-        console.log(responseData)
+        //console.log(responseData)
         expect(responseData.length).toBe(3)
         expect(responseData[0].id).toBe(1)
         expect(responseData[0].name).toBe("Mick Jagger")
