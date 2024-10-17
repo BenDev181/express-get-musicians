@@ -69,5 +69,20 @@ describe('Testing ./musicians endpoint', () => {
         expect(musicians[0].id).not.toBe(1)
     });
 
+    test("Test for  validating POST /musicians", async () => {
+        const response = await request(app)
+            .post("/musicians")
+            .send();
+        expect(response.statusCode).toEqual(200);
+        const responseData = JSON.parse(response.text);
+        //console.log(responseData)
+        expect(responseData.error[0]).toEqual({
+                type: 'field',       
+                msg: 'Invalid value',
+                path: 'name',        
+                location: 'body'
+        });
+    })
+
 
 })
