@@ -5,6 +5,7 @@ const db = require("../../db/connection.js");
 const { where } = require("sequelize");
 
 const router = express.Router();
+const {check, validationResult} = require("express-validator")
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -19,10 +20,18 @@ router.get("/:id", async (req, res) => {
     res.json(musician)
 })
 
-router.post("/", async (req, res) => {
-    const musician = await Musician.create(req.body)
-    let musicians = await Musician.findAll()
-    res.json(musicians)
+router.post("/", [
+    check("name").not().isEmpty().trim(),
+    check("instrument").not().isEmpty().trim()
+], async (req, res) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        res.json({error: errors.array()})
+    } else {
+        const musician = await Musician.create(req.body)
+        let musicians = await Musician.findAll()
+        res.json(musicians)
+    }
 })
 
 router.put("/:id", async (req, res) => {
